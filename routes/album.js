@@ -4,7 +4,7 @@ const Album = require('../models/albumSchema');
 const router = express.Router();
 
 //Post Method
-router.post('/post', async (req, res) => {
+router.post('/create', async (req, res) => {
   const data = new Album({
     _id: new mongoose.Types.ObjectId(),
     user: mongoose.Types.ObjectId(req.body.user),
@@ -33,11 +33,7 @@ router.get('/', async (req, res) => {
 //Get by ID Method
 router.get('/user/:userId/album', async (req, res) => {
   try {
-    console.log("dasdas")
-    console.log(req.params)
     const album = await Album.find({'user': req.params.userId}).populate('user');
-
-    console.log(album)
     res.json(album)
   } catch (error) {
     res.status(500).json({message: error.message})
@@ -57,7 +53,7 @@ router.get('/:id', async (req, res) => {
 
 
 //Update by ID Method
-router.patch('/:id', async (req, res) => {
+router.patch('/update/:id', async (req, res) => {
   try {
     const id = req.params.id;
     let updatedData = req.body;
