@@ -6,8 +6,8 @@ const albumSchema = new schema({
     _id: schema.Types.ObjectId,
     user: { type: schema.Types.ObjectId, ref: 'User', required: true },
     name: { type: String, required: true },
-    
-}, {timestamps: true});
+    lastUpdatedDate: { type: Date, default: Date.now },
+});
 
 
 const Album = module.exports = mongoose.model('Album', albumSchema);

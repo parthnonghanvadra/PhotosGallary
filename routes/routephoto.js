@@ -17,6 +17,7 @@ router.post('/post', async (req, res) => {
 
     try {
         const dataToSave = await data.save();
+        await Album.findById(dataToSave.album).update({lastUpdatedDate : new Date()});
         res.status(200).json(dataToSave)
     }
     catch (error) {
@@ -106,7 +107,8 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await Photo.findByIdAndDelete(id)
+        const data = await Photo.findByIdAndDelete(id);
+        await Album.findById(dataToSave.album).update({lastUpdatedDate : new Date()});
         res.send(`Document with ${data.name} has been deleted..`)
     }
     catch (error) {
