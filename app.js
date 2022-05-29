@@ -1,31 +1,29 @@
-const express = require ('express');
-const app = express();
-const port = 3000;
+const express = require('express');
 const mongoose = require('mongoose');
-const config = require ('./config/database');
-const connection = mongoose.connect(config.database, {
-  useNewUrlParser: true, useUnifiedTopology: true });
-  if(connection){
-console.log("database connected");
-}else{
-console.log("database connection error");
-}
+const config = require('./config/database');
 
+const PORT = 9000;
+
+mongoose.connect(config.database, {
+  useNewUrlParser: true, useUnifiedTopology: true
+}, () => console.log("Database connected!"));
+
+const app = express();
 app.use(express.json());
 
-const routeuser = require('./routes/routeuser');
-app.use("/api/Users", routeuser)
+const userRouter = require('routes/user');
+app.use("/api/user", userRouter)
 
-const routealbum = require('./routes/routealbum');
+const albumRouter = require('routes/album');
+app.use("/api/album", albumRouter)
 
-app.use("/api/Albums", routealbum)
+const photoRouter = require('routes/photo');
+app.use("/api/photos", photoRouter)
 
-const routephoto = require('./routes/routephoto');
-
-app.use("/api/Photos", routephoto)
-
-app.get("/",function(req,res){
-    res.end("hello world");
+app.get("/", function (req, res) {
+  res.end("???");
 })
-app.listen(port,function(){
-    console.log("server is " + port);});
+
+app.listen(PORT, function () {
+  console.log("server is listening on port: " + PORT);
+});
